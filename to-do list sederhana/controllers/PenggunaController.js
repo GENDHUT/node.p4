@@ -1,71 +1,114 @@
-import Todo from '../models/Todo.js';
+import PenggunaModel from '../models/Pengguna.js';
 
-class TodoController {
+class PenggunaController {
+  // Menampilkan daftar pengguna
   static async index(req, res) {
     try {
-      const todos = await Todo.getAll();
-      res.render('todos/index', { todos, error: null });
+      const penggunaList = await PenggunaModel.getAll();
+      res.render('pengguna/index', { pengguna: penggunaList, error: null });
     } catch (error) {
-      res.render('todos/index', { todos: [], error: error.message });
+      res.render('pengguna/index', { pengguna: [], error: error.message });
     }
   }
 
+  // Menambahkan pengguna baru
   static async create(req, res) {
     try {
-      const { title, description } = req.body;
-      await Todo.create(title, description);
-      res.redirect('/');
+      const { pengguna, description } = req.body;
+      // Validasi input
+      if (!pengguna || !description) {
+        return res.render('pengguna/index', { error: 'Nama dan deskripsi harus diisi', pengguna: [] });
+      }
+      await PenggunaModel.create(pengguna, description);
+      res.redirect('/pengguna'); // Setelah menambah pengguna, arahkan ke daftar pengguna
     } catch (error) {
-      const todos = await Todo.getAll();
-      res.render('todos/index', { todos, error: error.message });
+      const penggunaList = await PenggunaModel.getAll();
+      res.render('pengguna/index', { pengguna: penggunaList, error: error.message });
     }
   }
+
+  // // Mengedit pengguna
+  // static async edit(req, res) {
+  //   try {
+  //     const { id } = req.params;
+  //     const pengguna = await PenggunaModel.getById(id);
+  //     if (!pengguna) {
+  //       return res.render('pengguna/edit', { error: 'Pengguna tidak ditemukan', pengguna: null });
+  //     }
+  //     res.render('pengguna/edit', { pengguna, error: null });
+  //   } catch (error) {
+  //     res.render('pengguna/edit', { pengguna: null, error: error.message });
+  //   }
+  // }
 
   static async edit(req, res) {
     try {
       const { id } = req.params;
-      const todo = await Todo.getById(id);
-      res.render('todos/edit', { todo, error: null });
+      const pengguna = await PenggunaModel.getById(id); // Pastikan case-sensitive
+      
+      if (!pengguna) {
+        return res.render('pengguna/edit', { 
+          pengguna: null, 
+          error: 'Pengguna tidak ditemukan' 
+        });
+      }
+      
+      res.render('pengguna/edit', { pengguna, error: null });
     } catch (error) {
-      res.render('todos/edit', { todo: null, error: error.message });
+      res.render('pengguna/edit', { 
+        pengguna: null, 
+        error: error.message 
+      });
     }
   }
 
+  // Memperbarui pengguna
   static async update(req, res) {
     try {
       const { id } = req.params;
-      const { title, description, status } = req.body;
-      await Todo.update(id, title, description, status);
-      res.redirect('/');
+      const { pengguna, description, status } = req.body;
+
+      // Validasi input
+      if (!pengguna || !description) {
+        return res.render('pengguna/edit', { error: 'Nama dan deskripsi harus diisi', pengguna: { id, pengguna, description, status } });
+      }
+
+      await PenggunaModel.update(id, pengguna, description, status);
+      res.redirect('/pengguna'); // Setelah update, arahkan ke daftar pengguna
     } catch (error) {
-      const todo = await Todo.getById(req.params.id);
-      res.render('todos/edit', { todo, error: error.message });
+      const pengguna = await PenggunaModel.getById(req.params.id);
+      res.render('pengguna/edit', { pengguna, error: error.message });
     }
   }
 
+  // Menghapus pengguna
   static async delete(req, res) {
     try {
       const { id } = req.params;
-      await Todo.delete(id);
-      res.redirect('/');
+      if (!id) {
+        return res.redirect('/pengguna');
+      }
+      await PenggunaModel.delete(id); // Menghapus pengguna berdasarkan id
+      res.redirect('/pengguna'); // Arahkan kembali ke halaman daftar pengguna
     } catch (error) {
-      const todos = await Todo.getAll();
-      res.render('todos/index', { todos, error: error.message });
+      const penggunaList = await PenggunaModel.getAll();
+      res.render('pengguna/index', { pengguna: penggunaList, error: error.message });
     }
   }
 
+  // Menukar status pengguna
   static async toggleStatus(req, res) {
     try {
       const { id } = req.params;
-      const todo = await Todo.getById(id);
-      const newStatus = todo.status === 'completed' ? 'pending' : 'completed';
-      await Todo.update(id, todo.title, todo.description, newStatus);
-      res.redirect('/');
+      const pengguna = await PenggunaModel.getById(id);
+      const newStatus = pengguna.status === 'completed' ? 'pending' : 'completed';
+      await PenggunaModel.update(id, pengguna.pengguna, pengguna.description, newStatus);
+      res.redirect('/pengguna');
     } catch (error) {
-      const todos = await Todo.getAll();
-      res.render('todos/index', { todos, error: error.message });
+      const penggunaList = await PenggunaModel.getAll();
+      res.render('pengguna/index', { pengguna: penggunaList, error: error.message });
     }
   }
 }
 
-export default TodoController;
+export default PenggunaController;

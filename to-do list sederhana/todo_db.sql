@@ -27,9 +27,9 @@ SET time_zone = "+00:00";
 -- Struktur dari tabel `todos`
 --
 
-CREATE TABLE `todos` (
+CREATE TABLE `pengguna` (
   `id` int(11) NOT NULL,
-  `title` varchar(255) NOT NULL,
+  `pengguna` varchar(255) NOT NULL,
   `description` text DEFAULT NULL,
   `status` enum('pending','completed') DEFAULT 'pending',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()

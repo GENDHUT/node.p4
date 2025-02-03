@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Todo List</title>
+</head>
+<body>
+  <h1>Todo List</h1>
+  <a href="/tasks/create">Create New Task</a>
+
+  <% if (tasks.length > 0) { %>
+    <table>
+      <tr>
+        <th>Title</th>
+        <th>Description</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+      <% tasks.forEach(task => { %>
+        <tr>
+          <td><%= task.title %></td>
+          <td><%= task.description %></td>
+          <td><%= task.status %></td>
+          <td>
+            <a href="/tasks/<%= task.id %>/edit">Edit</a>
+            <form action="/tasks/<%= task.id %>/delete" method="post">
+              <button type="submit">Delete</button>
+            </form>
+          </td>
+        </tr>
+      <% }) %>
+    </table>
+  <% } else { %>
+    <p>No tasks found</p>
+  <% } %>
+</body>
+</html>

@@ -16,13 +16,21 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 // Routes
+// Todo routes (for reference)
 app.get('/', TodoController.index);
 app.post('/todos', TodoController.create);
 app.get('/todos/:id/edit', TodoController.edit);
 app.post('/todos/:id', TodoController.update);
 app.post('/todos/:id/delete', TodoController.delete);
 app.post('/todos/:id/status', TodoController.toggleStatus);
-app.get('/pengguna', PenggunaController.index);
+
+// Pengguna routes
+app.get('/pengguna', PenggunaController.index);  // Menampilkan daftar pengguna
+app.post('/pengguna', PenggunaController.create);  // Menambahkan pengguna
+app.get('/pengguna/:id/edit', PenggunaController.edit);  // Halaman edit pengguna
+app.post('/pengguna/:id', PenggunaController.update);  // Memperbarui pengguna
+app.post('/pengguna/:id/delete', PenggunaController.delete);  // Menghapus pengguna
+app.post('/pengguna/:id/status', PenggunaController.toggleStatus);  // Mengubah status pengguna
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
