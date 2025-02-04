@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Guest Book</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+    th { background-color: #f2f2f2; }
+    a.button {
+      text-decoration: none;
+      padding: 5px 10px;
+      background-color: #007BFF;
+      color: #fff;
+      border-radius: 4px;
+      margin-right: 5px;
+    }
+    a.button:hover { background-color: #0056b3; }
+  </style>
+</head>
+<body>
+  <h1>Guest Book</h1>
+  <div style="margin-bottom: 15px;">
+    <a href="/guestbook/add" class="button">Tambah Tamu</a>
+    <a href="/room" class="button">Room</a>
+  </div>
+  <table>
+    <tr>
+      <th>Nama</th>
+      <th>Email</th>
+      <th>Telepon</th>
+      <th>Ruangan</th>
+      <th>Check-In Time</th>
+      <th>Notes</th>
+      <th>Action</th>
+    </tr>
+    <% guests.forEach(guest => { %>
+      <tr>
+        <td><%= guest.NamaTamu %></td>
+        <td><%= guest.EmailTamu %></td>
+        <td><%= guest.PhoneTamu %></td>
+        <td><%= guest.RoomID %></td>
+        <td><%= guest.CheckInTime %></td>
+        <td><%= guest.Notes %></td>
+        <td>
+          <a href="/guestbook/edit/<%= guest.GuestBookID %>" class="button">Edit</a>
+          <a href="/guestbook/delete/<%= guest.GuestBookID %>" class="button" onclick="return confirm('Yakin ingin menghapus?')">Hapus</a>
+        </td>
+      </tr>
+    <% }); %>
+  </table>
+</body>
+</html>

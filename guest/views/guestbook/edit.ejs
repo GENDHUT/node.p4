@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit Tamu</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    form { max-width: 500px; }
+    label { display: block; margin-top: 10px; }
+    input, textarea, select { width: 100%; padding: 8px; box-sizing: border-box; margin-top: 5px; }
+    button { margin-top: 15px; padding: 10px 20px; background-color: #007BFF; border: none; color: #fff; cursor: pointer; }
+    button:hover { background-color: #0056b3; }
+  </style>
+</head>
+<body>
+  <h1>Edit Tamu</h1>
+  <form action="/guestbook/edit/<%= guest.GuestBookID %>" method="POST">
+    <label for="NamaTamu">Nama Tamu:</label>
+    <input type="text" id="NamaTamu" name="NamaTamu" value="<%= guest.NamaTamu %>" required>
+    
+    <label for="EmailTamu">Email Tamu:</label>
+    <input type="email" id="EmailTamu" name="EmailTamu" value="<%= guest.EmailTamu %>" required>
+    
+    <label for="PhoneTamu">Telepon Tamu:</label>
+    <input type="text" id="PhoneTamu" name="PhoneTamu" value="<%= guest.PhoneTamu %>" required>
+    
+    <label for="RoomID">Ruangan:</label>
+    <select id="RoomID" name="RoomID">
+      <option value="">-- Pilih Ruangan --</option>
+      <% rooms.forEach(room => { %>
+        <option value="<%= room.RoomID %>" <%= guest.RoomID == room.RoomID ? "selected" : "" %>>
+          <%= room.RoomNumber %> - <%= room.RoomType %>
+        </option>
+      <% }); %>
+    </select>
+    
+    <label for="CheckInTime">Check-In Time:</label>
+    <!-- Pastikan format waktu sesuai (YYYY-MM-DDTHH:MM) -->
+    <input type="datetime-local" id="CheckInTime" name="CheckInTime" value="<%= guest.CheckInTime ? new Date(guest.CheckInTime).toISOString().slice(0,16) : '' %>" required>
+    
+    <label for="Notes">Notes:</label>
+    <textarea id="Notes" name="Notes" rows="4"><%= guest.Notes %></textarea>
+    
+    <button type="submit">Update Tamu</button>
+  </form>
+</body>
+</html>
