@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h3>Daftar Pengguna</h3>
+    <a href="/create">Tambah Pengguna</a>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>Nama</th>
+                <th>Email</th>
+                <th>Password</th>
+                <th>Aksi</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% for (let i = 0; i < pengguna.length; i++) { %>
+                <tr>
+                    <td><%= i + 1 %></td>
+                    <td><%= pengguna[i].nama %></td>
+                    <td><%= pengguna[i].email %></td>
+                    <td><%= pengguna[i].password %></td>
+                    <td>
+                        <a href="/edit/<%= pengguna[i].id %>">Edit</a>
+                        <form action="/delete/<%= pengguna[i].id %>" method="post">
+                            <button type="submit">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            <% } %>
+        </tbody>
+</body>
+</html>
